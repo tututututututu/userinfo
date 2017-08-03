@@ -1,4 +1,4 @@
-package com.tutu.sysinfocollect;
+package com.tutu.sysinfocollect.web;
 
 import com.github.lzyzsd.jsbridge.BridgeWebView;
 import com.github.lzyzsd.jsbridge.BridgeWebViewClient;

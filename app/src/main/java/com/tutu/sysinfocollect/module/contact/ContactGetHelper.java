@@ -4,6 +4,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.net.Uri;
 import android.provider.ContactsContract;
+import android.text.TextUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,7 +32,7 @@ public class ContactGetHelper {
                 contactNumber = cursor.getString(cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
                 contactId = cursor.getInt(cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.CONTACT_ID));
                 contactSortKey = getSortkey(cursor.getString(1));
-                ContactBean contactsInfo = new ContactBean(contactName, contactNumber, contactSortKey, contactId);
+                ContactBean contactsInfo = new ContactBean(contactName, fomateNumber(contactNumber), contactSortKey, contactId);
                 if (contactName != null)
                     list.add(contactsInfo);
             }
@@ -52,5 +53,13 @@ public class ContactGetHelper {
             return key;
         } else
             return "#";
+    }
+
+
+    public static String fomateNumber(String number) {
+        if (TextUtils.isEmpty(number)) {
+            return "";
+        }
+        return number.replaceAll(" ", "");
     }
 }

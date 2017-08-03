@@ -1,18 +1,21 @@
-package com.tutu.sysinfocollect;
+package com.tutu.sysinfocollect.activity;
 
 import android.Manifest;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
+import android.text.TextUtils;
 import android.widget.TextView;
 
 import com.tbruyelle.rxpermissions2.RxPermissions;
+import com.tutu.sysinfocollect.R;
+import com.tutu.sysinfocollect.constans.Constans;
+import com.tutu.sysinfocollect.utils.SPUtils;
 import com.tutu.sysinfocollect.utils.ToastUtils;
 import com.tutu.sysinfocollect.utils.Utils;
 
 import io.reactivex.functions.Consumer;
 
-public class MainActivity extends AppCompatActivity {
+public class FlashActivity extends BaseActivity {
     private TextView tv_version;
     RxPermissions rxPermissions;
 
@@ -41,9 +44,7 @@ public class MainActivity extends AppCompatActivity {
                             tv_version.postDelayed(new Runnable() {
                                 @Override
                                 public void run() {
-                                    Intent intent = new Intent(MainActivity.this, JsBridgeWebViewActivity.class);
-                                    startActivity(intent);
-                                    finish();
+                                    checkToken();
                                 }
                             }, 3000);
                         } else {
@@ -52,7 +53,25 @@ public class MainActivity extends AppCompatActivity {
                         }
                     }
                 });
+    }
 
+    private void checkToken() {
+        if (TextUtils.isEmpty(SPUtils.getString(Constans.TOKEN))) {
+            toLogin();
+        } else {
+            toWeb();
+        }
+    }
 
+    private void toLogin() {
+        Intent intent = new Intent(FlashActivity.this, LoginActivity.class);
+        startActivity(intent);
+        finish();
+    }
+
+    private void toWeb() {
+        Intent intent = new Intent(FlashActivity.this, JsBridgeWebViewActivity.class);
+        startActivity(intent);
+        finish();
     }
 }

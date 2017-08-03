@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.tutu.sysinfocollect.MainActivity">
+    tools:context="com.tutu.sysinfocollect.activity.FlashActivity">
 
     <ImageView
         android:layout_width="match_parent"
