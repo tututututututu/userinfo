@@ -109,6 +109,7 @@ public class TLocationListener implements BDLocationListener {
         Log.i("BaiduLocationApiDem", sb.toString());
         SPUtils.putString(Constans.LAT,location.getLatitude()+"");
         SPUtils.putString(Constans.LNG,location.getLongitude()+"");
+        SPUtils.putString(Constans.ADDR,location.getAddrStr()+"");
     }
 
     @Override

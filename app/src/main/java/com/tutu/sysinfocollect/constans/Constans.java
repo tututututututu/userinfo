@@ -7,10 +7,12 @@ package com.tutu.sysinfocollect.constans;
 public class Constans {
     public static final String LAT = "lat";
     public static final String LNG = "lng";
+    public static final String ADDR = "addr";
 
     public static final String BASE_URL = "http://www.lecoudai.com/";
     public static final String PHONE = "phone";
     public static final String REGIST_LOGIN = "appjson/login.htm";
+    public static final String REGIST_TEST = "appjson/record.htm";
     public static final String UPLOAD_INFO = "appjson/record.htm";
     public static final String INDEX_URL = "http://www.lecoudai.com/app/index.htm";
     public static final String TOKEN = "token";

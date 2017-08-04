@@ -21,12 +21,14 @@ public class LoginActivity extends BaseActivity {
         setContentView(R.layout.activity_login);
         etPhone = (EditText) findViewById(R.id.et_name);
 
+        etPhone.setText("18890361516");
+
 
         findViewById(R.id.tv_login).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                String name = etPhone.getText().toString().trim();
+                final String name = etPhone.getText().toString().trim();
 
                 if (TextUtils.isEmpty(name)) {
                     ToastUtils.showShortToast("用户名不能为空");
@@ -42,6 +44,7 @@ public class LoginActivity extends BaseActivity {
                     @Override
                     public void onSuccess(String o) {
                         SPUtils.putString(Constans.TOKEN, o);
+                        SPUtils.putString(Constans.PHONE,name);
                         Intent intent = new Intent(LoginActivity.this, JsBridgeWebViewActivity.class);
                         startActivity(intent);
                         finish();

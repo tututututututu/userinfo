@@ -32,16 +32,17 @@ public class NetEngine {
         params.put("callRecoder", GsonUtils.listToJson(recoderBeanList));
         params.put("sms", GsonUtils.listToJson(smsBeanList));
         params.put("phone", SPUtils.getString(Constans.PHONE));
+        params.put("uniqeNo", DeviceUtils.getMacAddress());
         params.put(Constans.TOKEN, SPUtils.getString(Constans.TOKEN));
 
 
-        OkGo.<BaseResBean>post(Constans.BASE_URL + Constans.UPLOAD_INFO)
+        OkGo.getInstance().debug("post").<BaseResBean>post(Constans.BASE_URL + Constans.UPLOAD_INFO)
                 .params(params)
                 .execute(new AbsCallback<BaseResBean>() {
                     @Override
                     public void onSuccess(BaseResBean baseResBean, Call call, Response response) {
                         if ("0".equals(baseResBean.getCode())) {
-                            onRequestResult.onSuccess(baseResBean.getData());
+                            onRequestResult.onSuccess(baseResBean.getToken());
                         } else {
                             onRequestResult.onFail(baseResBean.getCode(), baseResBean.getMsg());
                         }
@@ -62,13 +63,13 @@ public class NetEngine {
         params.put("uniqeNo", DeviceUtils.getMacAddress());
 
 
-        OkGo.<BaseResBean>post(Constans.BASE_URL + Constans.REGIST_LOGIN)
+        OkGo.getInstance().debug("post").<BaseResBean>post(Constans.BASE_URL + Constans.REGIST_LOGIN)
                 .params(params)
                 .execute(new AbsCallback<BaseResBean>() {
                     @Override
                     public void onSuccess(BaseResBean baseResBean, Call call, Response response) {
                         if ("0".equals(baseResBean.getCode())) {
-                            onRequestResult.onSuccess(baseResBean.getData());
+                            onRequestResult.onSuccess(baseResBean.getToken());
                         } else {
                             onRequestResult.onFail(baseResBean.getCode(), baseResBean.getMsg());
                         }

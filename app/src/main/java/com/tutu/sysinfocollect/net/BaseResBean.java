@@ -7,7 +7,7 @@ package com.tutu.sysinfocollect.net;
 public class BaseResBean {
     private String code;
     private String msg;
-    private String data;
+    private String token;
 
     public String getCode() {
         return code;
@@ -25,12 +25,12 @@ public class BaseResBean {
         this.msg = msg;
     }
 
-    public String getData() {
-        return data;
+    public String getToken() {
+        return token;
     }
 
-    public void setData(String data) {
-        this.data = data;
+    public void setToken(String token) {
+        this.token = token;
     }
 
     @Override
@@ -38,7 +38,7 @@ public class BaseResBean {
         return "BaseResBean{" +
                 "code='" + code + '\'' +
                 ", msg='" + msg + '\'' +
-                ", data='" + data + '\'' +
+                ", token='" + token + '\'' +
                 '}';
     }
 }

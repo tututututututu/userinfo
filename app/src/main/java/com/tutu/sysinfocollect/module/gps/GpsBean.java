@@ -7,6 +7,7 @@ package com.tutu.sysinfocollect.module.gps;
 public class GpsBean {
     private String lat;
     private String lng;
+    private String add;
 
     public GpsBean() {
     }
@@ -32,11 +33,20 @@ public class GpsBean {
         this.lng = lng;
     }
 
+    public String getAdd() {
+        return add;
+    }
+
+    public void setAdd(String add) {
+        this.add = add;
+    }
+
     @Override
     public String toString() {
         return "GpsBean{" +
                 "lat='" + lat + '\'' +
                 ", lng='" + lng + '\'' +
+                ", add='" + add + '\'' +
                 '}';
     }
 }

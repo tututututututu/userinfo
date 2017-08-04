@@ -12,6 +12,7 @@ public class GpsGetHelper {
         GpsBean gpsBean = new GpsBean();
         gpsBean.setLat(SPUtils.getString(Constans.LAT));
         gpsBean.setLng(SPUtils.getString(Constans.LNG));
+        gpsBean.setAdd(SPUtils.getString(Constans.ADDR));
         return gpsBean;
     }
 }
