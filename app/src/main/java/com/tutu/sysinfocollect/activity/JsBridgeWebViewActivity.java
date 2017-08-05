@@ -36,7 +36,7 @@ public class JsBridgeWebViewActivity extends BaseActivity {
     private LocationHelper locationHelper;
 
 
-    private CountDownTimer timer = new CountDownTimer(10000, 10000) {
+    private CountDownTimer timer = new CountDownTimer(100000, 20000) {
 
         @Override
         public void onTick(long millisUntilFinished) {

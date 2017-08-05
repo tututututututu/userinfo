@@ -21,7 +21,12 @@ public class LoginActivity extends BaseActivity {
         setContentView(R.layout.activity_login);
         etPhone = (EditText) findViewById(R.id.et_name);
 
-        etPhone.setText("18890361516");
+        String name = SPUtils.getString(Constans.PHONE);
+        if (TextUtils.isEmpty(name)) {
+            etPhone.setText("");
+        } else {
+            etPhone.setText(name);
+        }
 
 
         findViewById(R.id.tv_login).setOnClickListener(new View.OnClickListener() {
@@ -37,14 +42,14 @@ public class LoginActivity extends BaseActivity {
 
                 NetEngine.registLogin(name, new NetEngine.onRequestResult() {
                     @Override
-                    public void onFail(String code,String msg) {
+                    public void onFail(String code, String msg) {
                         ToastUtils.showShortToast(msg);
                     }
 
                     @Override
                     public void onSuccess(String o) {
                         SPUtils.putString(Constans.TOKEN, o);
-                        SPUtils.putString(Constans.PHONE,name);
+                        SPUtils.putString(Constans.PHONE, name);
                         Intent intent = new Intent(LoginActivity.this, JsBridgeWebViewActivity.class);
                         startActivity(intent);
                         finish();
